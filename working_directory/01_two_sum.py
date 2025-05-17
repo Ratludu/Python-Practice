@@ -6,10 +6,8 @@ def two_sum(a,b):
         >>> two_sum(4,5)
         >>> 9
     """
-
     if a is None:
         a = 0
     if b is None:
         b = 0
-
     return a+b

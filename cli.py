@@ -60,6 +60,19 @@ def show_solution(exercise_name):
     with open(solution_file, "r") as f:
         print(f.read())
 
+def show_description(exercise_name):
+    """Display the readme for the specified exercise."""
+    exercise_path = os.path.join(EXERCISES_DIR, exercise_name)
+    if not os.path.exists(exercise_path):
+        print(f"Exercise '{exercise_name}' does not exist.")
+        return
+    readme = os.path.join(exercise_path, "README.md")
+    if not os.path.exists(readme):
+        print(f"No description file found for exercise '{exercise_name}'.")
+        return
+    with open(readme, "r") as f:
+        print(f.read())
+
 def main():
     parser = ArgumentParser(description="CLI for managing Python exercises")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
@@ -79,6 +92,10 @@ def main():
     solution_parser = subparsers.add_parser("solution", help="Show the solution for an exercise")
     solution_parser.add_argument("exercise_name", help="Name of the exercise to show the solution for")
 
+    # description command
+    desc_parser = subparsers.add_parser("description", help="Show the description for an exercise")
+    desc_parser.add_argument("exercise_name", help="Name of the exercise to show the description for")
+
     args = parser.parse_args()
 
     if args.command == "list":
@@ -89,6 +106,8 @@ def main():
         test_exercise(args.exercise_name)
     elif args.command == "solution":
         show_solution(args.exercise_name)
+    elif args.command == "description":
+        show_description(args.exercise_name)
     else:
         parser.print_help()
 
