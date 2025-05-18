@@ -95,7 +95,7 @@ def generate_prompt(exercise_name):
         description = f.read()
     with open(current_sol, "r") as f:
         what_ive_done = f.read()
-    prompt = f"I am working on an exercise named '{exercise_name}'. Here is the description of the exercise: {description}. I am stuck and need help understanding how to approach it. \n Here is my current attempt: \n {what_ive_done}"
+    prompt = f"I am working on an exercise named '{exercise_name}'. Here is the description of the exercise: {description}. I am stuck and need help understanding how to approach it. \n Here is my current attempt: \n {what_ive_done}\n PLEASE GIVE ME GUIDANCE, NOT THE SOLUTION\n For each follow up question give me more information than the last, eventually give me the answer."
     print("Here is a prompt you can use:")
     print(f"\"{prompt}\"")
     pyperclip.copy(prompt)
