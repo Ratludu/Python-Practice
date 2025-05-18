@@ -1,15 +1,9 @@
-def two_sum(a,b):
-    """
-    This function should return the sum of two integers. None should be considerd as 0.
+def sum_odd_digits(digits: list) -> int:
 
-    Example:
-        >>> two_sum(4,5)
-        >>> 9
-    """
+    tracking_sum = 0
 
-    if a is None:
-        a = 0
-    if b is None:
-        b = 0
+    for i in digits:
+        if i % 2 != 0:
+            tracking_sum += 0
 
-    return a+b
+    return tracking_sum

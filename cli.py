@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+import pyperclip
 import os
 import shutil
 import subprocess
@@ -46,6 +47,10 @@ def test_exercise(exercise_name):
         return
     result = subprocess.run(["pytest", test_file], capture_output=True, text=True)
     print(result.stdout)
+    if "passed" in result.stdout and "failed" not in result.stdout:
+        print("✨ You passed all the tests! ✨")
+    else:
+        print("🐸 So close, you can do it! 🐸")
 
 def show_solution(exercise_name):
     """Display the solution for the specified exercise."""
@@ -73,6 +78,29 @@ def show_description(exercise_name):
     with open(readme, "r") as f:
         print(f.read())
 
+def generate_prompt(exercise_name):
+    """Generate a prompt for an exercise to help students ask for assistance."""
+    exercise_path = os.path.join(EXERCISES_DIR, exercise_name)
+    if not os.path.exists(exercise_path):
+        print(f"Exercise '{exercise_name}' does not exist.")
+        return
+    readme = os.path.join(exercise_path, "README.md")
+    current_sol = os.path.join(WORKING_DIR, exercise_name+".py")
+    if not os.path.exists(readme):
+        print(f"No description file found for exercise '{exercise_name}'.")
+        print("Here is a generic prompt you can use:")
+        print(f"\"I am working on an exercise named '{exercise_name}', but I am stuck. Can you help me understand how to approach it?\"")
+        return
+    with open(readme, "r") as f:
+        description = f.read()
+    with open(current_sol, "r") as f:
+        what_ive_done = f.read()
+    prompt = f"I am working on an exercise named '{exercise_name}'. Here is the description of the exercise: {description}. I am stuck and need help understanding how to approach it. \n Here is my current attempt: \n {what_ive_done}"
+    print("Here is a prompt you can use:")
+    print(f"\"{prompt}\"")
+    pyperclip.copy(prompt)
+    print("\n📋 The prompt has been copied to your clipboard!")
+
 def main():
     parser = ArgumentParser(description="CLI for managing Python exercises")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
@@ -96,6 +124,10 @@ def main():
     desc_parser = subparsers.add_parser("description", help="Show the description for an exercise")
     desc_parser.add_argument("exercise_name", help="Name of the exercise to show the description for")
 
+    # Prompt command
+    prompt_parser = subparsers.add_parser("prompt", help="Generate a prompt for an exercise")
+    prompt_parser.add_argument("exercise_name", help="Name of the exercise to generate a prompt for")
+
     args = parser.parse_args()
 
     if args.command == "list":
@@ -108,6 +140,8 @@ def main():
         show_solution(args.exercise_name)
     elif args.command == "description":
         show_description(args.exercise_name)
+    elif args.command == "prompt":
+        generate_prompt(args.exercise_name)
     else:
         parser.print_help()
 
