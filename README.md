@@ -47,7 +47,7 @@ Python_Practice/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/python-practice.git
+   git clone https://github.com/Ratludu/Python-Practice.git
    cd python-practice
    ```
 
