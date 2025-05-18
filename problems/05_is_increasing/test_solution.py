@@ -11,17 +11,17 @@ def import_from_working_directory(module_name, file_path):
 
 # Path to the working directory
 WORKING_DIR = "working_directory"
-solution_path = os.path.join(WORKING_DIR, "03_sum_odd_digits.py")
-student_solution = import_from_working_directory("sum_odd_digits", solution_path)
+solution_path = os.path.join(WORKING_DIR, "05_is_increasing.py")
+student_solution = import_from_working_directory("is_increasing", solution_path)
 
 @pytest.mark.parametrize(
     "inputs, expected",
     [
-        ([2,3,5], 8),
-        ([2,4,6],0),
-        ([-1,-3,-5], -9),
-        ([],0)
+        ([2,3,5], True),
+        ([2,4,6],True),
+        ([-1,5,3],False),
+        ([],True)
     ]
 )
-def test_sum_odd(inputs, expected):
-    assert student_solution.sum_odd_digits(inputs) == expected
+def test_is_increasing(inputs, expected):
+    assert student_solution.is_increasing(inputs) == expected
